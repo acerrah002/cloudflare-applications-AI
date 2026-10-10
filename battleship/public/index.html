@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battleship</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="version" class="version"></div>
+<main>
+  <header><h1>Battleship</h1><p id="record" class="rec"></p></header>
+
+  <section id="home" class="panel">
+    <label for="name">Your name</label>
+    <input id="name" maxlength="14" placeholder="Captain" autocomplete="off">
+    <button id="host" class="btn main wide">Host a game</button>
+    <div class="join">
+      <input id="code" maxlength="8" placeholder="Room code" autocomplete="off" spellcheck="false">
+      <button id="join" class="btn">Join</button>
+    </div>
+    <p id="home-msg" class="err"></p>
+  </section>
+
+  <section id="room" hidden>
+    <div class="bar">
+      <span>Room <b id="room-code"></b></span>
+      <span id="who"></span>
+      <button id="leave" class="btn small">Leave</button>
+    </div>
+    <div class="msgs"><p id="status"></p><p id="status2"></p></div>
+
+    <div id="wait" class="panel" hidden>
+      <p class="rec">Give this code to your opponent</p>
+      <div id="big-code" class="code"></div>
+      <button id="copy" class="btn">Copy code</button>
+    </div>
+
+    <div id="boards" class="boards">
+      <section><h2>Your fleet</h2><div id="mine" class="board"></div></section>
+      <section><h2>Enemy waters</h2><div id="foe" class="board"></div></section>
+    </div>
+    <div id="fleetbox" class="side"><h2 id="fleet-title"></h2><ul id="fleet"></ul></div>
+
+    <div class="controls" id="setup">
+      <button id="rotate" class="btn">Rotate (R)</button>
+      <button id="random" class="btn">Randomize</button>
+      <button id="clear" class="btn">Clear</button>
+      <button id="ready" class="btn main" disabled>Ready</button>
+    </div>
+    <div class="controls" id="again" hidden>
+      <button id="rematch" class="btn main">Play again</button>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast" hidden></div>
+<script src="script.js"></script>
+</body>
+</html>
