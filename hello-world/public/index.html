@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNO Online</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="version" class="version"></div>
+
+<main id="app">
+
+  <section id="view-auth" class="view hidden">
+    <div class="panel narrow">
+      <h1 class="logo">UNO<span>online</span></h1>
+      <p class="muted">Log in to host a lobby or join your friends with a code.</p>
+      <label for="username">Username</label>
+      <input id="username" type="text" maxlength="16" autocomplete="username" placeholder="3-16 letters or numbers">
+      <label for="password">Password</label>
+      <input id="password" type="password" maxlength="100" autocomplete="current-password" placeholder="At least 6 characters">
+      <div class="row">
+        <button id="btn-login" class="btn primary">Log in</button>
+        <button id="btn-register" class="btn">Create account</button>
+      </div>
+      <p id="auth-error" class="error"></p>
+    </div>
+  </section>
+
+  <section id="view-menu" class="view hidden">
+    <header class="topbar">
+      <h1 class="logo small">UNO<span>online</span></h1>
+      <div class="row">
+        <strong id="menu-name"></strong>
+        <button id="btn-logout" class="btn small">Log out</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="panel">
+        <h2>Your record</h2>
+        <div class="stats">
+          <div><b id="stat-games">0</b><span>games</span></div>
+          <div><b id="stat-wins">0</b><span>wins</span></div>
+          <div><b id="stat-rate">-</b><span>win rate</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Play</h2>
+        <button id="btn-host" class="btn primary wide">Host a lobby</button>
+        <div class="join-row">
+          <input id="join-code" type="text" maxlength="8" placeholder="Lobby code" autocomplete="off" spellcheck="false">
+          <button id="btn-join" class="btn">Join</button>
+        </div>
+        <button id="btn-rejoin" class="btn wide hidden"></button>
+      </div>
+
+      <div class="panel full">
+        <h2>Leaderboard</h2>
+        <table id="leaderboard">
+          <thead><tr><th>Player</th><th>Wins</th><th>Games</th><th>Win rate</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-lobby" class="view hidden">
+    <div class="panel narrow">
+      <p class="muted">Lobby code</p>
+      <div id="lobby-code" class="code"></div>
+      <button id="btn-copy" class="btn small">Copy code</button>
+      <h2>Players</h2>
+      <ul id="lobby-players" class="plist"></ul>
+      <p id="lobby-hint" class="muted"></p>
+      <div class="row">
+        <button id="btn-start" class="btn primary hidden">Start game</button>
+        <button id="btn-leave-lobby" class="btn">Leave</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-game" class="view hidden">
+    <header class="topbar">
+      <div class="row"><span class="muted">Lobby</span> <strong id="game-code"></strong></div>
+      <button id="btn-leave-game" class="btn small">Leave game</button>
+    </header>
+
+    <div id="opponents" class="opponents"></div>
+
+    <div class="table">
+      <button id="draw-pile" class="pile" aria-label="Draw a card">
+        <span class="back">UNO</span>
+        <small id="deck-count"></small>
+      </button>
+      <div class="center">
+        <div id="discard"></div>
+        <div id="color-indicator" class="color-indicator"></div>
+      </div>
+    </div>
+
+    <div id="turn-banner" class="turn-banner"></div>
+    <div class="actions">
+      <button id="btn-pass" class="btn hidden">Pass</button>
+      <button id="btn-uno" class="btn uno hidden">UNO!</button>
+    </div>
+
+    <div id="hand" class="hand"></div>
+    <ul id="log" class="log"></ul>
+  </section>
+
+</main>
+
+<div id="color-modal" class="overlay hidden">
+  <div class="panel narrow">
+    <h2>Choose a color</h2>
+    <div class="color-choices">
+      <button class="swatch red" data-color="red" aria-label="Red"></button>
+      <button class="swatch yellow" data-color="yellow" aria-label="Yellow"></button>
+      <button class="swatch green" data-color="green" aria-label="Green"></button>
+      <button class="swatch blue" data-color="blue" aria-label="Blue"></button>
+    </div>
+    <button id="btn-color-cancel" class="btn small">Cancel</button>
+  </div>
+</div>
+
+<div id="end-modal" class="overlay hidden">
+  <div class="panel narrow">
+    <h2 id="end-title"></h2>
+    <p id="end-sub" class="muted"></p>
+    <div class="row">
+      <button id="btn-rematch" class="btn primary hidden">Rematch</button>
+      <button id="btn-end-leave" class="btn">Leave</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
