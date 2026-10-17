@@ -1,0 +1,75 @@
+$utf8 = New-Object System.Text.UTF8Encoding $false
+$text = @'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shared Button</title>
+
+<!-- ========== CSS: how it looks ========== -->
+<style>
+  body {
+    margin: 0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; background: #0f172a; color: #e2e8f0; font-family: system-ui, sans-serif;
+  }
+  #btn {
+    width: 220px; height: 220px; border-radius: 50%; border: 0;
+    background: #64748b; color: white; font-size: 1.5rem; cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+  }
+  #btn:active { transform: scale(0.95); }
+  #btn.green { background: #22c55e; }   /* JavaScript adds/removes this class */
+  #status { color: #94a3b8; }
+</style>
+</head>
+
+<!-- ========== HTML: what is on the page ========== -->
+<body>
+  <h1>One button. Everyone sees it.</h1>
+  <button id="btn">Press me</button>
+  <div id="users">Connecting...</div>
+  <div id="status"></div>
+
+<!-- ========== JavaScript: the networking ========== -->
+<script>
+const btn = document.getElementById("btn");
+const usersEl = document.getElementById("users");
+const statusEl = document.getElementById("status");
+let socket;
+
+function connect() {
+  // ws:// for http pages, wss:// (encrypted) for https pages
+  const protocol = location.protocol === "https:" ? "wss" : "ws";
+  socket = new WebSocket(protocol + "://" + location.host + "/ws");
+
+  // 1. Connection opened
+  socket.onopen = () => { statusEl.textContent = "Connected to server"; };
+
+  // 2. The SERVER sent us something: update the screen
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);          // text -> object
+    btn.classList.toggle("green", data.green);    // green or gray
+    usersEl.textContent = data.users + (data.users === 1 ? " person" : " people") + " online";
+  };
+
+  // 3. Connection lost: try again in 2 seconds
+  socket.onclose = () => {
+    statusEl.textContent = "Disconnected. Reconnecting...";
+    setTimeout(connect, 2000);
+  };
+}
+
+// When pressed, we do NOT change the color ourselves.
+// We ask the server, and the server tells everyone (including us).
+btn.onclick = () => {
+  if (socket.readyState === WebSocket.OPEN) socket.send("toggle");
+};
+
+connect();
+</script>
+</body>
+</html>
+'@
+[System.IO.File]::WriteAllText("$PWD\public\index.html", $text, $utf8)

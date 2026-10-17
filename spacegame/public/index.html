@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Space Duel</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="version" class="version"></div>
+
+<section id="home" class="screen">
+  <div class="card">
+    <h1>SPACE DUEL</h1>
+    <p class="sub">1v1 laser dogfight. First to 3 rounds wins.</p>
+    <label for="name">Pilot name</label>
+    <input id="name" maxlength="14" placeholder="Pilot" autocomplete="off">
+    <button id="host" class="btn main wide">Host a match</button>
+    <div class="join">
+      <input id="code" maxlength="8" placeholder="Room code" autocomplete="off" spellcheck="false">
+      <button id="join" class="btn">Join</button>
+    </div>
+    <p id="home-msg" class="err"></p>
+    <details class="help">
+      <summary>Controls</summary>
+      <p><b>PC:</b> click the game to capture the mouse, then aim with the mouse. Space or left click fires. Shift or right click boosts. X brakes. W A S D or arrow keys also steer. I inverts the Y axis, M mutes.</p>
+      <p><b>Phone or tablet:</b> left stick steers, FIRE shoots, BOOST speeds up, BRAKE slows down.</p>
+    </details>
+  </div>
+</section>
+
+<section id="lobby" class="screen" hidden>
+  <div class="card">
+    <p class="sub">Room code</p>
+    <div id="lobby-code" class="bigcode"></div>
+    <button id="copy" class="btn">Copy code</button>
+    <p id="lobby-note" class="sub">Waiting for your opponent to join...</p>
+    <button id="leave-lobby" class="btn">Leave</button>
+  </div>
+</section>
+
+<div id="hud" hidden>
+  <div class="top">
+    <div class="side me"><div class="nm" id="name-me"></div><div class="bar"><i id="hp-me"></i></div><div class="pips" id="pips-me"><span></span><span></span><span></span></div></div>
+    <div class="mid"><div id="round"></div><div id="note"></div></div>
+    <div class="side foe"><div class="nm" id="name-foe"></div><div class="bar"><i id="hp-foe"></i></div><div class="pips" id="pips-foe"><span></span><span></span><span></span></div></div>
+  </div>
+  <div id="cross"></div>
+  <div id="marker" hidden><div class="dia"></div><div class="arrow" id="mk-arrow">&#10148;</div><div class="dist" id="mk-dist"></div></div>
+  <div id="banner" hidden><div id="b1"></div><div id="b2"></div></div>
+  <div id="warn" hidden>Leaving the arena! Turn back.</div>
+  <div id="lockhint" hidden>Click the game to capture the mouse (Esc releases it)</div>
+  <div id="boostwrap"><div class="bar"><i id="boost"></i></div></div>
+  <button id="quit" class="btn small">Quit</button>
+</div>
+
+<div id="touch" hidden>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="t-fire" class="tb">FIRE</div>
+  <div id="t-boost" class="tb">BOOST</div>
+  <div id="t-brake" class="tb">BRAKE</div>
+</div>
+
+<section id="end" class="screen" hidden>
+  <div class="card">
+    <h1 id="end-title"></h1>
+    <p id="end-sub" class="sub"></p>
+    <button id="rematch" class="btn main wide">Rematch</button>
+    <button id="end-leave" class="btn wide">Leave</button>
+  </div>
+</section>
+
+<div id="toast" class="toast" hidden></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
