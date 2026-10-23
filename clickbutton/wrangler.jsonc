@@ -1,5 +1,3 @@
-$utf8 = New-Object System.Text.UTF8Encoding $false
-$text = @'
 {
   "name": "green-button",
   "main": "src/index.js",
@@ -7,12 +5,10 @@ $text = @'
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/ws"]
+    "run_worker_first": ["/api/*"]
   },
   "durable_objects": {
     "bindings": [{ "name": "BUTTON", "class_name": "Button" }]
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Button"] }]
 }
-'@
-[System.IO.File]::WriteAllText("$PWD\wrangler.jsonc", $text, $utf8)

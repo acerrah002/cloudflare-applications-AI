@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shared Button</title>
+
+<!-- ========== CSS: how it looks ========== -->
+<style>
+  body {
+    margin: 0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; background: #0f172a; color: #e2e8f0; font-family: system-ui, sans-serif;
+  }
+  #btn {
+    width: 200px; height: 200px; border-radius: 50%; border: 0;
+    background: #64748b; color: white; font-size: 1.4rem; cursor: pointer;
+    transition: background 0.3s;
+  }
+  #btn.green { background: #22c55e; }   /* JavaScript adds/removes this class */
+  #log {
+    width: min(520px, 92%); height: 160px; overflow-y: auto;
+    background: #020617; border-radius: 8px; padding: 10px;
+    font: 13px monospace; color: #94a3b8; white-space: pre-wrap;
+  }
+</style>
+</head>
+
+<!-- ========== HTML: what is on the page ========== -->
+<body>
+  <h1>One button. Everyone sees it.</h1>
+  <button id="btn">Press me</button>
+  <div>Network log (every request this page sends):</div>
+  <div id="log"></div>
+
+<!-- ========== JavaScript: the networking ========== -->
+<script>
+const btn = document.getElementById("btn");
+const logBox = document.getElementById("log");
+
+// Add a line to the log so students can SEE the network traffic
+function log(text) {
+  logBox.textContent += text + "\n";
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+// Turn the button green or gray based on what the SERVER told us
+function showColor(data) {
+  btn.classList.toggle("green", data.green);
+}
+
+// REQUEST 1: "Server, what color is it?"
+// The server RESPONDS with {"green": true} or {"green": false}
+async function checkColor() {
+  const response = await fetch("/api/state");   // send the request
+  const data = await response.json();           // read the response
+  log("GET  /api/state  ->  " + JSON.stringify(data));
+  showColor(data);
+}
+
+// REQUEST 2: "Server, I pressed the button!"
+// We do NOT change the color ourselves. The server changes it and tells us.
+btn.onclick = async () => {
+  const response = await fetch("/api/press", { method: "POST" });
+  const data = await response.json();
+  log("POST /api/press  ->  " + JSON.stringify(data));
+  showColor(data);
+};
+
+// Polling: ask the server again every 1 second, so we notice when
+// SOMEONE ELSE pressed the button.
+checkColor();
+setInterval(checkColor, 1000);
+</script>
+</body>
+</html>
